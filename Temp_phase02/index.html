@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AirNote</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            width: 350px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: #00c6ff;
+            color: black;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .loading {
+            color: #00c6ff;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>AirNote ✨</h1>
+
+    <button onclick="startPrediction()">Start Writing</button>
+
+    <div id="result">Prediction: --</div>
+</div>
+
+<script>
+async function startPrediction() {
+    const result = document.getElementById("result");
+
+    result.innerHTML = "<span class='loading'>Writing...</span>";
+
+    try {
+        const response = await fetch("/predict");
+        const data = await response.json();
+
+        result.innerHTML = "Prediction: " + data.prediction;
+
+    } catch (error) {
+        result.innerHTML = "⚠️ Error connecting to server";
+    }
+}
+</script>
+
+</body>
+</html>
